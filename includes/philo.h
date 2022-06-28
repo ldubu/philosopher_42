@@ -14,6 +14,7 @@
 # define PHILO_H
 
 # include <sys/time.h>
+# include <pthread.h>
 # include <stdio.h>
 # include "../libft/includes/libft.h"
 
@@ -42,5 +43,6 @@ typedef struct s_philo
 }		t_philo;
 
 int	parsing(int ac, char **av, t_time *args);
+int	create_philo(t_time *args, int i);
 
 #endif

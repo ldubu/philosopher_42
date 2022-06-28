@@ -13,11 +13,12 @@ NAME	= 	philo
 INCLUDE = 	includes/ \
 			libft/includes/
 LIBFT	= 	libft/libft.a
-CFLAGS	= 	-Wall -Werror -Wextra
+CFLAGS	= 	-Wall -Werror -Wextra -D_REENTRANT -DWin32
 HEADER	= 	includes/philo.h
 RM		=	rm -rf
 SRCS	= 	sources/main.c \
-			sources/parsing.c
+			sources/parsing.c \
+			sources/create_philo.c
 
 OBJS_PATH = objs/
 OBJS	= $(addprefix $(OBJS_PATH), $(SRCS:.c=.o))
@@ -26,8 +27,8 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS) $(HEADER)
 	@printf "%-15s ${_PURPLE}${_BOLD}${NAME}${_END}...\n" "Compiling"
-	@$(CC) $(OBJS) $(LIBFT) $(CFLAGS) -o $@ -lreadline
-	@printf "\n${_GREEN}${_BOLD}[Minishell OK]${_END}\n"
+	@$(CC) $(OBJS) $(LIBFT) $(CFLAGS) -o $@ -lpthread
+	@printf "\n${_GREEN}${_BOLD}[Philo OK]${_END}\n"
 
 $(OBJS_PATH)%.o: %.c $(HEADER)
 	@mkdir -p $(dir $@)
