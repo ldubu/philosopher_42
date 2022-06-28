@@ -32,7 +32,7 @@ int	parsing(int ac, char **av, t_time *args)
 		}
 		i++;
 	}
-	i = __atoi(av[1]);
+	args->nbr_philo = __atoi(av[1]);
 	args->time_to_die = __atoi(av[2]);
 	args->time_to_eat = __atoi(av[3]);
 	args->time_to_sleep = __atoi(av[4]);
