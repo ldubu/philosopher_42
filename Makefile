@@ -10,15 +10,17 @@ _END= 	$'\033[37m
 
 CC		= 	cc
 NAME	= 	philo
-INCLUDE = 	includes/ \
-			libft/includes/
+INCLUDE = 	includes/
 LIBFT	= 	libft/libft.a
 CFLAGS	= 	-Wall -Werror -Wextra -D_REENTRANT -DWin32
 HEADER	= 	includes/philo.h
 RM		=	rm -rf
 SRCS	= 	sources/main.c \
 			sources/parsing.c \
-			sources/create_philo.c
+			sources/create_philo.c \
+			sources/utils.c \
+			sources/error.c \
+			sources/eat.c
 
 OBJS_PATH = objs/
 OBJS	= $(addprefix $(OBJS_PATH), $(SRCS:.c=.o))

@@ -19,44 +19,47 @@
 # include <stdbool.h>
 # include "../libft/includes/libft.h"
 
-# define TAKEN_FORK false
-# define FREE_FORK	true
-
-typedef enum e_state
-{
-	EAT = 0,
-	SLEEP,
-	THINK,
-}				t_state;
-
-typedef struct s_cutlery
-{
-	pthread_mutex_t	*mutex_fork;
-	bool			*forks;
-}					t_cutlery;
-
-typedef struct s_time
-{
-	int		nbr_philo;
-	long	time_to_die;
-	long	time_to_eat;
-	long	time_to_sleep;
-	long	nbr_of_time;
-}			t_time;
+struct s_args;
 
 typedef struct s_philo
 {
-	t_state		state;
-	int			nbr;
-	int			left_fork;
-	int			right_fork;
-	int			nbr_of_meal;
-	long		last_meal;
-	t_time		info;
-	t_cutlery	*cutlery;
+	int				nbr;
+	int				left_fork;
+	int				right_fork;
+	int				meal_nbr;
+	long long		last_meal;
+	pthread_t		thread_id;
+	struct s_args	*args;
 }				t_philo;
 
-int	parsing(int ac, char **av, t_time *args);
-int	create_philo(t_time *args, t_cutlery *cutlery, int i);
+
+typedef struct s_args
+{
+	int				nbr_philo;
+	int				time_die;
+	int				time_eat;
+	int				time_sleep;
+	int				meal_nbr;
+	int				all_eat;
+	int				death;
+	pthread_mutex_t	forks[250];
+	pthread_mutex_t	message;
+	pthread_mutex_t meal;
+	long long		first_time;
+	t_philo			philos[250];
+}					t_args;
+
+/*----------Error message---------*/
+int	error_message(int type);
+
+/*----------Parsing---------------*/
+int	parsing(int ac, char **av, t_args *args);
+
+/*-----------Utils------------*/
+long long	get_time(void);
+void		message(t_args *args, int philo_n, char *action);
+void	eat(t_philo *philo, t_args *args);
+int	create_philo(t_args *args);
+void		smart_sleep(long long time, t_args *args);
 
 #endif

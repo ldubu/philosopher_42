@@ -12,65 +12,107 @@
 
 #include "philo.h"
 
-static void	philo_init(t_philo *philo, t_time *args, t_cutlery *cutlery, int i)
-{
-	philo->state = THINK;
-	philo->nbr = i;
-	if (i != 1)
-		philo->left_fork = i - 2;
-	else
-		philo->left_fork = args->nbr_philo - 1;
-	if (i != args->nbr_philo)
-		philo->right_fork = i;
-	else
-		philo->right_fork = 0;
-	philo->nbr_of_meal = 0;
-	philo->info = *args;
-	philo->cutlery = cutlery;
-}
-
 static void	*routine(void *false_philo)
 {
 	t_philo	*philo;
-	int hungry = 1;
+	t_args	*args;
 
 	philo = (t_philo *)false_philo;
-	printf("Je suis le philo %d\n", philo->nbr);
+	args = philo->args;
 	if (philo->nbr % 2)
-		usleep(500);
-	else
-		usleep(100);
-	while (hungry)
+		usleep(15000);
+	while (!args->death)
 	{
-		if (philo->cutlery->forks[philo->left_fork])
-		{
-			pthread_mutex_lock(philo->cutlery->mutex_fork + philo->left_fork);
-			philo->cutlery->forks[philo->left_fork] = TAKEN_FORK;
-			if (philo->cutlery->forks[philo->right_fork])
-			{
-				pthread_mutex_lock(philo->cutlery->mutex_fork + philo->right_fork);
-				philo->cutlery->forks[philo->right_fork] = TAKEN_FORK;
-				printf("philo %d is eating\n", philo->nbr);
-				hungry = 0;
-				usleep(philo->info.time_to_eat);
-				philo->cutlery->forks[philo->right_fork] = FREE_FORK;
-				pthread_mutex_unlock(philo->cutlery->mutex_fork + philo->right_fork);
-			}
-			philo->cutlery->forks[philo->left_fork] = FREE_FORK;
-			pthread_mutex_unlock(philo->cutlery->mutex_fork + philo->left_fork);
-		}
+		eat(philo, args);
+		if (args->all_eat)
+			break;
+		message(args, philo->nbr + 1, "is sleeping");
+		smart_sleep(args->time_sleep, args);
+		message(args, philo->nbr + 1, "is thinking");
 	}
-	return(philo);
+	return (NULL);
 }
 
-int	create_philo(t_time *args, t_cutlery *cutlery, int i)
+void	check_all_eat(t_args *args)
 {
-	pthread_t	tid;
-	t_philo		philo;
+	int	i;
 
-	philo_init(&philo, args, cutlery, i);
-	pthread_create(&tid, NULL, &routine, (void *)&philo);
-	usleep(5);
-	(void) args;
-	return (1);
+	i = 0;
+	while (i < args->nbr_philo)
+	{
+		if (args->philos[i].meal_nbr <= args->meal_nbr)
+			break;
+		i++;
+	}
+	if (i == args->nbr_philo)
+		args->all_eat = 1;
 }
+
+void check_death(t_args *args)
+{
+	int i;
+	while (!args->all_eat)
+	{
+		i = 0;
+		while (i < args->nbr_philo)
+		{
+			pthread_mutex_lock(&(args->meal));
+			if (get_time() - args->philos[i].last_meal > args->time_die)
+			{
+				message(args, i + 1, "died");
+				args->death = 1;
+			}
+			pthread_mutex_unlock(&(args->meal));
+			i++;
+		}
+		if (args->death)
+			break;
+		if (args->all_eat != -1)
+			check_all_eat(args);
+}
+}
+
+int	create_philo(t_args *args)
+{
+	int	i;
+
+	i = 0;
+	args->first_time = get_time();
+	while (i < args->nbr_philo)
+	{
+		if (pthread_create(&(args->philos[i].thread_id), NULL, &routine, (void *)&args->philos[i]))
+			return (error_message(4));
+		args->philos[i].last_meal = get_time();
+		i++;
+		usleep(5);
+	}
+	check_death(args);
+	return (0);
+}
+
+
+// static void	*routine(void *false_philo)
+// {
+// 	t_philo	*philo;
+
+// 	philo = (t_philo *)false_philo;
+// 	if (philo->nbr % 2)
+// 		usleep(15000);
+// 	while (philo->nbr_of_meal < 1)
+// 	{
+// 		eat(philo->cutlery->forks, philo->cutlery->mutex_fork, philo);
+// 	}
+// 	return(philo);
+// }
+
+// int	create_philo(t_time *args, t_cutlery *cutlery, int i)
+// {
+// 	pthread_t	tid;
+// 	t_philo		philo;
+
+// 	philo_init(&philo, args, cutlery, i);
+// 	pthread_create(&tid, NULL, &routine, (void *)&philo);
+// 	// usleep(5);
+// 	(void) args;
+// 	return (1);
+// }
