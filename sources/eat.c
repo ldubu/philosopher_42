@@ -12,6 +12,10 @@
 
 #include "philo.h"
 
+/*	Locks fourchette de droite et de gauche avant de lock ke mutex meal
+	pour le debut du repas. Puis on attend le temp du repas avant d'unlock
+	les fourchettes*/
+
 void	eat(t_philo *philo, t_args *args)
 {
 	pthread_mutex_lock(&(args->forks[philo->left_fork]));

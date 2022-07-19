@@ -20,7 +20,7 @@ static void	philo(t_philo *philo, int i)
 	philo->meal_nbr = 0;
 }
 
-static int	init_philo(t_args * args)
+static int	init_philos(t_args * args)
 {
 	int i;
 
@@ -75,6 +75,6 @@ int	parsing(int ac, char **av, t_args *args)
 	args->death = 0;
 	if (init_mutex(args))
 		return (1);
-	init_philo(args);
+	init_philos(args);
 	return (0);
 }

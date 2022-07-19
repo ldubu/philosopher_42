@@ -49,17 +49,24 @@ typedef struct s_args
 	t_philo			philos[250];
 }					t_args;
 
-/*----------Error message---------*/
+/*--------------Error----------------*/
 int	error_message(int type);
 
-/*----------Parsing---------------*/
+/*--------------Parsing--------------*/
 int	parsing(int ac, char **av, t_args *args);
 
-/*-----------Utils------------*/
+/*--------------Create-philo---------*/
+int	create_philo(t_args *args);
+
+/*--------------Eat------------------*/
+void		eat(t_philo *philo, t_args *args);
+
+/*--------------Check----------------*/
+void check_death(t_args *args);
+
+/*--------------Utils----------------*/
 long long	get_time(void);
 void		message(t_args *args, int philo_n, char *action);
-void	eat(t_philo *philo, t_args *args);
-int	create_philo(t_args *args);
 void		smart_sleep(long long time, t_args *args);
 
 #endif
