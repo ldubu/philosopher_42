@@ -5,18 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/13 13:29:51 by marvin            #+#    #+#             */
-/*   Updated: 2022/06/13 13:29:51 by marvin           ###   ########.fr       */
+/*   Created: 2022/07/19 14:49:56 by marvin            #+#    #+#             */
+/*   Updated: 2022/07/19 14:49:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 static void	philo(t_philo *philo, int i)
 {
 	philo->nbr = i;
-	philo->left_fork = i;
-	philo->right_fork = i + 1 % (philo->args->nbr_philo);
 	philo->meal_nbr = 0;
 }
 
@@ -34,17 +32,9 @@ static int	init_philos(t_args * args)
 	return (1);
 }
 
-static int	init_mutex(t_args *args)
+static int	init_mutex_sema(t_args *args)
 {
-	int i;
-
-	i = 0;
-	while (i < args->nbr_philo)
-	{
-		if (pthread_mutex_init(args->forks + i, NULL))
-			return (error_message(3));
-		i++;
-	}
+	sem_open("/sema", O_CREATE, 0000644, args->nbr_philo);
 	if (pthread_mutex_init(&(args->message), NULL))
 			return (error_message(3));
 	if (pthread_mutex_init(&(args->meal), NULL))
@@ -73,7 +63,7 @@ int	parsing(int ac, char **av, t_args *args)
 		args->meal_nbr = __atoi(av[5]);
 	args->all_eat = 0;
 	args->death = 0;
-	if (init_mutex(args))
+	if (init_mutex_sema(args))
 		return (1);
 	init_philos(args);
 	return (0);

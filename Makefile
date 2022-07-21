@@ -43,6 +43,7 @@ $(LIBFT):
 clean:
 	$(MAKE) -C ./libft clean
 	$(RM) $(OBJS) 
+	$(RM) $(OBJS_PATH)
 
 fclean:	clean
 	$(RM) $(NAME)
