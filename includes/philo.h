@@ -19,7 +19,7 @@
 # include <stdbool.h>
 # include "../libft/includes/libft.h"
 
-struct s_args;
+struct	s_args;
 
 typedef struct s_philo
 {
@@ -32,7 +32,6 @@ typedef struct s_philo
 	struct s_args	*args;
 }				t_philo;
 
-
 typedef struct s_args
 {
 	int				nbr_philo;
@@ -44,25 +43,25 @@ typedef struct s_args
 	int				death;
 	pthread_mutex_t	forks[250];
 	pthread_mutex_t	message;
-	pthread_mutex_t meal;
+	pthread_mutex_t	meal;
 	long long		first_time;
 	t_philo			philos[250];
 }					t_args;
 
 /*--------------Error----------------*/
-int	error_message(int type);
+int			error_message(int type);
 
 /*--------------Parsing--------------*/
-int	parsing(int ac, char **av, t_args *args);
+int			parsing(int ac, char **av, t_args *args);
 
 /*--------------Create-philo---------*/
-int	create_philo(t_args *args);
+int			create_philo(t_args *args);
 
 /*--------------Eat------------------*/
 void		eat(t_philo *philo, t_args *args);
 
 /*--------------Check----------------*/
-void check_death(t_args *args);
+void		check_death(t_args *args);
 
 /*--------------Utils----------------*/
 long long	get_time(void);

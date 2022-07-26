@@ -20,9 +20,9 @@ static void	philo(t_philo *philo, int i)
 	philo->meal_nbr = 0;
 }
 
-static int	init_philos(t_args * args)
+static int	init_philos(t_args *args)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < args->nbr_philo)
@@ -36,7 +36,7 @@ static int	init_philos(t_args * args)
 
 static int	init_mutex(t_args *args)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < args->nbr_philo)
@@ -46,16 +46,15 @@ static int	init_mutex(t_args *args)
 		i++;
 	}
 	if (pthread_mutex_init(&(args->message), NULL))
-			return (error_message(3));
+		return (error_message(3));
 	if (pthread_mutex_init(&(args->meal), NULL))
-			return (error_message(3));
+		return (error_message(3));
 	return (0);
 }
 
-
 int	parsing(int ac, char **av, t_args *args)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (i < ac)

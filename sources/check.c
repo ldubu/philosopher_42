@@ -22,7 +22,7 @@ static void	check_all_eat(t_args *args)
 	while (i < args->nbr_philo)
 	{
 		if (args->philos[i].meal_nbr <= args->meal_nbr)
-			break;
+			break ;
 		i++;
 	}
 	if (i == args->nbr_philo)
@@ -33,9 +33,10 @@ static void	check_all_eat(t_args *args)
 	un mutex protege le fait de chacker la mort et le debut d'un repas en
 	meme temps*/
 
-void check_death(t_args *args)
+void	check_death(t_args *args)
 {
-	int i;
+	int	i;
+
 	while (!args->all_eat)
 	{
 		i = 0;
@@ -51,8 +52,8 @@ void check_death(t_args *args)
 			i++;
 		}
 		if (args->death)
-			break;
+			break ;
 		if (args->meal_nbr != -1)
 			check_all_eat(args);
-}
+	}
 }

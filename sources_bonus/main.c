@@ -12,14 +12,17 @@
 
 #include "philo_bonus.h"
 
-t_args	args;
+int	main(int argc, char **argv)
+{
+	t_args_b	args;
 
 	if (argc != 5 && argc != 6)
 		return (error_message(1));
 	if (parsing(argc, argv, &args))
 		return (1);
 	create_philo(&args);
-	sem_close();
-	sem_unlink();
-	wait_philo();
+	sem_close(args.forks);
+	sem_unlink("/sema");
+	// wait_philo();
 	return (0);
+}

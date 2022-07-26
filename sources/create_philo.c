@@ -29,7 +29,7 @@ static void	*routine(void *void_philo)
 	{
 		eat(philo, args);
 		if (args->all_eat)
-			break;
+			break ;
 		message(args, philo->nbr + 1, "is sleeping");
 		smart_sleep(args->time_sleep, args);
 		message(args, philo->nbr + 1, "is thinking");
@@ -48,7 +48,8 @@ int	create_philo(t_args *args)
 	args->first_time = get_time();
 	while (i < args->nbr_philo)
 	{
-		if (pthread_create(&(args->philos[i].thread_id), NULL, &routine, (void *)&args->philos[i]))
+		if (pthread_create(&(args->philos[i].thread_id), NULL, &routine, \
+		(void *)&args->philos[i]))
 			return (error_message(4));
 		args->philos[i].last_meal = get_time();
 		i++;

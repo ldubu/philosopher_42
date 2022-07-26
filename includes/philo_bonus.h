@@ -17,22 +17,26 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <stdbool.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include "../libft/includes/libft.h"
 # include <semaphore.h>
 
-struct s_args;
+struct	s_args_bonus;
 
-typedef struct s_philo
+typedef struct s_philo_bonus
 {
-	int				nbr;
-	int				meal_nbr;
-	long long		last_meal;
-	pthread_t		philo_id;
-	struct s_args	*args;
-}				t_philo;
+	int					nbr;
+	int					meal_nbr;
+	long long			last_meal;
+	int					philo_id;
+	struct s_args_bonus	*args;
+}				t_philo_b;
 
-
-typedef struct s_args
+typedef struct s_args_bonus
 {
 	int				nbr_philo;
 	int				time_die;
@@ -41,30 +45,31 @@ typedef struct s_args
 	int				meal_nbr;
 	int				all_eat;
 	int				death;
+	sem_t			*forks;
 	pthread_mutex_t	message;
-	pthread_mutex_t meal;
+	pthread_mutex_t	meal;
 	long long		first_time;
-	t_philo			philos[250];
-}					t_args;
+	t_philo_b		philos[250];
+}					t_args_b;
 
 /*--------------Error----------------*/
-int	error_message(int type);
+int			error_message(int type);
 
 /*--------------Parsing--------------*/
-int	parsing(int ac, char **av, t_args *args);
+int			parsing(int ac, char **av, t_args_b *args);
 
 /*--------------Create-philo---------*/
-int	create_philo(t_args *args);
+int			create_philo(t_args_b *args);
 
 /*--------------Eat------------------*/
-void		eat(t_philo *philo, t_args *args);
+void		eat(t_philo_b *philo, t_args_b *args);
 
 /*--------------Check----------------*/
-void check_death(t_args *args);
+void		check_death(t_args_b *args);
 
 /*--------------Utils----------------*/
 long long	get_time(void);
-void		message(t_args *args, int philo_n, char *action);
-void		smart_sleep(long long time, t_args *args);
+void		message(t_args_b *args, int philo_n, char *action);
+void		smart_sleep(long long time, t_args_b *args);
 
 #endif

@@ -27,7 +27,7 @@ void	eat(t_philo *philo, t_args *args)
 	philo->last_meal = get_time();
 	pthread_mutex_unlock(&(args->meal));
 	smart_sleep(args->time_eat, args);
-	(philo->meal_nbr) ++;
+	(philo->meal_nbr)++;
 	pthread_mutex_unlock(&(args->forks[philo->left_fork]));
 	pthread_mutex_unlock(&(args->forks[philo->right_fork]));
 }

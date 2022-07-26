@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 /*	La fonction get_time transforme le retour de gettimeofday en un chiffre
 	utilisable */
@@ -25,7 +25,7 @@ long long	get_time(void)
 
 /*	Pour pas que les messages se melangent, on a un mutex sur les messages*/
 
-void	message(t_args *args, int philo_n, char *action)
+void	message(t_args_b *args, int philo_n, char *action)
 {
 	pthread_mutex_lock(&(args->message));
 	if (!args->death)
@@ -36,7 +36,7 @@ void	message(t_args *args, int philo_n, char *action)
 /*	Smart sleep surveille si un philo n'est pas mort pendant que le philo
 	mange ou dort*/
 
-void	smart_sleep(long long time, t_args *args)
+void	smart_sleep(long long time, t_args_b *args)
 {
 	long long	i;
 
@@ -47,4 +47,29 @@ void	smart_sleep(long long time, t_args *args)
 			break ;
 		usleep(50);
 	}
+}
+
+/* Fonction pour attendre tout les philos */
+
+int	status_handler(int wstatus)
+{
+	if (WIFEXITED(wstatus))
+		return (WEXITSTATUS(wstatus));
+	if (WIFSIGNALED(wstatus))
+		return (128 + WTERMSIG(wstatus));
+	return (wstatus);
+}
+
+int	wait_philo(t_args_b *args)
+{
+	int	i;
+	int	wstatus;
+
+	i = 0;
+	while (i < args->nbr_philo)
+	{
+		waitpid(args->philos[i].philo_id, &wstatus, 0);
+		i++;
+	}
+	return (status_handler(wstatus));
 }
