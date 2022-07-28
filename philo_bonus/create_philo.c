@@ -21,11 +21,13 @@ static void	*routine(void *void_philo)
 	t_philo_b	*philo;
 	t_args_b	*args;
 
+	// fprintf(stderr, "enter routine\n");
 	philo = (t_philo_b *) void_philo;
 	args = philo->args;
 	philo->last_meal = get_time();
 	if (philo->nbr % 2)
 		usleep(15000);
+	// printf("%d made here death = %d\n", philo->nbr, args->death);
 	while (!args->death)
 	{
 		eat(philo, args);
@@ -53,11 +55,13 @@ int	create_philo(t_args_b *args)
 		args->philos[i].last_meal = get_time();
 		if (args->philos[i].philo_id == 0)
 		{
+			// printf("death = %d, eat = %d\n", args->death, args->meal_nbr);
 			if (pthread_create(&(args->philos[i].thread_id), NULL, &routine, \
 			(void *)&args->philos[i]))
 				return (error_message(4));
+			// printf("%d, out of routine\n", i);
 			args->philos[i].last_meal = get_time();
-			check_death(args);
+			check_death(args, i);
 			sem_close(args->forks);
 			exit(0);
 		}

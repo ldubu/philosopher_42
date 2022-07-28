@@ -66,7 +66,7 @@ int			create_philo(t_args_b *args);
 void		eat(t_philo_b *philo, t_args_b *args);
 
 /*--------------Check----------------*/
-int			check_death(void *void_philo);
+int			check_death(t_args_b *args, int i);
 
 /*--------------Utils----------------*/
 long long	get_time(void);

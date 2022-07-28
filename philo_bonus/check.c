@@ -6,7 +6,7 @@
 /*   By: ldubuche <ldubuche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 11:44:46 by ldubuche          #+#    #+#             */
-/*   Updated: 2022/07/28 12:40:14 by ldubuche         ###   ########.fr       */
+/*   Updated: 2022/07/28 14:49:17 by ldubuche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,23 @@
 	un mutex protege le fait de checker la mort et le debut d'un repas en
 	meme temps*/
 
-int	check_death(void *void_philo)
+int	check_death(t_args_b *args, int i)
 {
-	t_philo_b	*philo;
-
-	philo = (t_philo_b *) void_philo;
 	while (1)
 	{
-		fprintf(stderr, "test %lli\n", get_time() - philo->args->first_time);
-		pthread_mutex_lock(&(philo->args->meal));
-		if (get_time() - philo->last_meal > philo->args->time_die)
+		// fprintf(stderr, "%i: test %lli\n", i, get_time() - args->first_time);
+		pthread_mutex_lock(&(args->meal));
+		if (get_time() - args->philos[i].last_meal > args->time_die)
 		{
-			message(philo->args, philo->nbr + 1, "died");
-			philo->args->death = 1;
+			message(args, args->philos[i].nbr + 1, "died");
+			args->death = 1;
 		}
-		pthread_mutex_unlock(&(philo->args->meal));
-		if (philo->args->death)
+		pthread_mutex_unlock(&(args->meal));
+		if (args->death)
 			return (1);
-		if (philo->args->meal_nbr != -1)
+		if (args->meal_nbr != -1)
 		{
-			if (philo->meal_nbr <= philo->args->meal_nbr)
+			if (args->philos[i].meal_nbr >= args->meal_nbr)
 				return (2);
 		}
 	}
