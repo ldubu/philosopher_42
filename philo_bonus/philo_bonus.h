@@ -33,6 +33,7 @@ typedef struct s_philo_bonus
 	int					meal_nbr;
 	long long			last_meal;
 	int					philo_id;
+	pthread_t			thread_id;
 	struct s_args_bonus	*args;
 }				t_philo_b;
 
@@ -65,7 +66,7 @@ int			create_philo(t_args_b *args);
 void		eat(t_philo_b *philo, t_args_b *args);
 
 /*--------------Check----------------*/
-void		check_death(t_args_b *args);
+int			check_death(void *void_philo);
 
 /*--------------Utils----------------*/
 long long	get_time(void);

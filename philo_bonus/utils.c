@@ -69,6 +69,14 @@ int	wait_philo(t_args_b *args)
 	while (i < args->nbr_philo)
 	{
 		waitpid(args->philos[i].philo_id, &wstatus, 0);
+		if (wstatus == 1)
+		{
+			i = 0;
+			while (i < args->nbr_philo)
+				kill(args->philos[i++].philo_id, SIGQUIT);
+		}
+		if (wstatus == 2)
+			args->philos[i].meal_nbr = args->meal_nbr;
 		i++;
 	}
 	return (status_handler(wstatus));

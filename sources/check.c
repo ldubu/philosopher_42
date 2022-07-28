@@ -30,7 +30,7 @@ static void	check_all_eat(t_args *args)
 }
 
 /*	Check si les philo ont depasser time_death depuis leur dernier repas
-	un mutex protege le fait de chacker la mort et le debut d'un repas en
+	un mutex protege le fait de checker la mort et le debut d'un repas en
 	meme temps*/
 
 void	check_death(t_args *args)

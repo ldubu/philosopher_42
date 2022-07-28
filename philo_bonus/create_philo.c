@@ -16,12 +16,14 @@
 	thread va debuter. Pour eviter un deadlock, les philo pair demarre avec un
 	decalage. Puis ils mangent, dorment et pensent */
 
-static void	*routine(t_philo_b *philo)
+static void	*routine(void *void_philo)
 {
+	t_philo_b	*philo;
 	t_args_b	*args;
 
+	philo = (t_philo_b *) void_philo;
 	args = philo->args;
-	message(philo->args, philo->nbr + 1, "saying hello");
+	philo->last_meal = get_time();
 	if (philo->nbr % 2)
 		usleep(15000);
 	while (!args->death)
@@ -33,7 +35,6 @@ static void	*routine(t_philo_b *philo)
 		smart_sleep(args->time_sleep, args);
 		message(args, philo->nbr + 1, "is thinking");
 	}
-	exit(0);
 	return (NULL);
 }
 
@@ -51,7 +52,15 @@ int	create_philo(t_args_b *args)
 		args->philos[i].philo_id = fork();
 		args->philos[i].last_meal = get_time();
 		if (args->philos[i].philo_id == 0)
-			routine(&(args->philos[i]));
+		{
+			if (pthread_create(&(args->philos[i].thread_id), NULL, &routine, \
+			(void *)&args->philos[i]))
+				return (error_message(4));
+			args->philos[i].last_meal = get_time();
+			check_death(args);
+			sem_close(args->forks);
+			exit(0);
+		}
 		i++;
 		usleep(5);
 	}
