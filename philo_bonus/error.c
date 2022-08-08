@@ -20,7 +20,7 @@ int	error_message(int type)
 	else if (type == 2)
 		printf("Arguments must be positive number\n");
 	else if (type == 3)
-		printf("Problem while initializing mutex\n");
+		printf("Problem while initializing semaphore\n");
 	else if (type == 4)
 		printf("Problem during thread creation\n");
 	return (1);

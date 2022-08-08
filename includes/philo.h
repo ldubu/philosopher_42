@@ -67,5 +67,6 @@ void		check_death(t_args *args);
 long long	get_time(void);
 void		message(t_args *args, int philo_n, char *action);
 void		smart_sleep(long long time, t_args *args);
+void		check_death(t_args *args);
 
 #endif

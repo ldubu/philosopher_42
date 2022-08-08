@@ -34,10 +34,13 @@ static int	init_philos(t_args_b *args)
 
 static int	init_mutex_sema(t_args_b *args)
 {
-	args->forks = sem_open("/sema", O_CREAT, 0000644, args->nbr_philo);
-	if (pthread_mutex_init(&(args->message), NULL))
+	sem_unlink("forks");
+	sem_unlink("messages");
+	args->forks = sem_open("forks", O_CREAT, 0000644, args->nbr_philo);
+	if (args->forks == SEM_FAILED)
 		return (error_message(3));
-	if (pthread_mutex_init(&(args->meal), NULL))
+	args->message = sem_open("messages", O_CREAT, 0000644, 1);
+	if (args->message == SEM_FAILED)
 		return (error_message(3));
 	return (0);
 }

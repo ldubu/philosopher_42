@@ -22,7 +22,8 @@ int	main(int argc, char **argv)
 		return (1);
 	create_philo(&args);
 	sem_close(args.forks);
-	sem_unlink("/sema");
-	// wait_philo();
+	sem_unlink("forks");
+	sem_unlink("messages");
+	wait_philo(&args);
 	return (0);
 }

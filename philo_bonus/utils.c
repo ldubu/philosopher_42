@@ -27,10 +27,10 @@ long long	get_time(void)
 
 void	message(t_args_b *args, int philo_n, char *action)
 {
-	pthread_mutex_lock(&(args->message));
+	sem_wait(args->message);
 	if (!args->death)
 		printf("%lli %i %s\n", get_time() - args->first_time, philo_n, action);
-	pthread_mutex_unlock(&(args->message));
+	sem_post(args->message);
 }
 
 /*	Smart sleep surveille si un philo n'est pas mort pendant que le philo
@@ -51,33 +51,45 @@ void	smart_sleep(long long time, t_args_b *args)
 
 /* Fonction pour attendre tout les philos */
 
-int	status_handler(int wstatus)
-{
-	if (WIFEXITED(wstatus))
-		return (WEXITSTATUS(wstatus));
-	if (WIFSIGNALED(wstatus))
-		return (128 + WTERMSIG(wstatus));
-	return (wstatus);
-}
-
 int	wait_philo(t_args_b *args)
 {
-	int	i;
-	int	wstatus;
+	int		i;
+	int		wait_status;
 
-	i = 0;
-	while (i < args->nbr_philo)
+	i = -1;
+	while (++i < args->nbr_philo)
 	{
-		waitpid(args->philos[i].philo_id, &wstatus, 0);
-		if (wstatus == 1)
+		waitpid(-1, &wait_status, 0);
+		if (WIFEXITED(wait_status) && WEXITSTATUS(wait_status) == 1)
 		{
-			i = 0;
-			while (i < args->nbr_philo)
-				kill(args->philos[i++].philo_id, SIGQUIT);
+			i = -1;
+			while (++i < args->nbr_philo)
+				kill(args->philos[i].philo_id, SIGTERM);
+			break ;
 		}
-		if (wstatus == 2)
-			args->philos[i].meal_nbr = args->meal_nbr;
-		i++;
 	}
-	return (status_handler(wstatus));
+	i = -1;
+	while (++i < args->nbr_philo)
+	{
+		sem_unlink("/sema");
+	}
+	return (1);
 }
+// int	i;
+	// int	wstatus;
+
+	// i = 0;
+	// while (i < args->nbr_philo)
+	// {
+	// 	waitpid(args->philos[i].philo_id, &wstatus, 0);
+	// 	if (WIFEXITED(wait_status) && WEXITSTATUS(wait_status) == 1)
+	// 	{
+	// 		i = 0;
+	// 		while (i < args->nbr_philo)
+	// 			kill(args->philos[i++].philo_id, SIGTERM);
+	// 	}
+	// 	if (wstatus == 2)
+	// 		args->philos[i].meal_nbr = args->meal_nbr;
+	// 	i++;
+	// }
+	// return (status_handler(wstatus));

@@ -47,8 +47,7 @@ typedef struct s_args_bonus
 	int				all_eat;
 	int				death;
 	sem_t			*forks;
-	pthread_mutex_t	message;
-	pthread_mutex_t	meal;
+	sem_t			*message;
 	long long		first_time;
 	t_philo_b		philos[250];
 }					t_args_b;
@@ -72,5 +71,6 @@ int			check_death(t_args_b *args, int i);
 long long	get_time(void);
 void		message(t_args_b *args, int philo_n, char *action);
 void		smart_sleep(long long time, t_args_b *args);
+int			wait_philo(t_args_b *args);
 
 #endif

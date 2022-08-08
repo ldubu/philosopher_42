@@ -20,7 +20,8 @@ SRCS	= 	sources/main.c \
 			sources/create_philo.c \
 			sources/utils.c \
 			sources/error.c \
-			sources/eat.c
+			sources/eat.c \
+			sources/check.c
 
 OBJS_PATH = objs/
 OBJS	= $(addprefix $(OBJS_PATH), $(SRCS:.c=.o))
