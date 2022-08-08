@@ -45,6 +45,6 @@ void	smart_sleep(long long time, t_args *args)
 	{
 		if ((get_time() - i) >= time)
 			break ;
-		usleep(50);
+		usleep(time / 10);
 	}
 }

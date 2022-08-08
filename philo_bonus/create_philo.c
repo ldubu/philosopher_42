@@ -21,13 +21,11 @@ static void	*routine(void *void_philo)
 	t_philo_b	*philo;
 	t_args_b	*args;
 
-	// fprintf(stderr, "enter routine\n");
 	philo = (t_philo_b *) void_philo;
 	args = philo->args;
 	philo->last_meal = get_time();
 	if (philo->nbr % 2)
 		usleep(15000);
-	// printf("%d made here death = %d\n", philo->nbr, args->death);
 	while (!args->death)
 	{
 		eat(philo, args);

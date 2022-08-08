@@ -11,17 +11,17 @@ _END= 	$'\033[37m
 CC		= 	cc
 NAME	= 	philo
 INCLUDE = 	includes/
-LIBFT	= 	libft/libft.a
+LIBFT	= 	../libft/libft.a
 CFLAGS	= 	-Wall -Werror -Wextra -D_REENTRANT -DWin32
-HEADER	= 	includes/philo.h
+HEADER	= 	philo.h
 RM		=	rm -rf
-SRCS	= 	sources/main.c \
-			sources/parsing.c \
-			sources/create_philo.c \
-			sources/utils.c \
-			sources/error.c \
-			sources/eat.c \
-			sources/check.c
+SRCS	= 	main.c \
+			parsing.c \
+			create_philo.c \
+			utils.c \
+			error.c \
+			eat.c \
+			check.c
 
 OBJS_PATH = objs/
 OBJS	= $(addprefix $(OBJS_PATH), $(SRCS:.c=.o))
@@ -35,18 +35,18 @@ $(NAME): $(LIBFT) $(OBJS) $(HEADER)
 
 $(OBJS_PATH)%.o: %.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -I $(INCLUDE) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 	@printf "%-15s ${_YELLOW}${_BOLD}$<${_END}...\n" "Compiling"	
 
 $(LIBFT):
-	$(MAKE) --no-print-directory -C ./libft
+	$(MAKE) --no-print-directory -C ../libft
 
 bonus :
 	$(MAKE) --no-print-directory -C ./philo_bonus
 	mv philo_bonus/bonus ./
 
 clean:
-	$(MAKE) -C ./libft clean
+	$(MAKE) -C ../libft clean
 	$(RM) $(OBJS) 
 	$(RM) $(OBJS_PATH)
 

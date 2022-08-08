@@ -9,7 +9,7 @@ _WHITE=	$'\033[37m
 _END= 	$'\033[37m
 
 CC		= 	cc
-NAME	= 	bonus
+NAME	= 	philo_bonus
 LIBFT	= 	../libft/libft.a
 CFLAGS	= 	-Wall -Werror -Wextra -D_REENTRANT -DWin32
 HEADER	= 	philo_bonus.h
