@@ -23,5 +23,7 @@ int	error_message(int type)
 		printf("Problem while initializing mutex\n");
 	else if (type == 4)
 		printf("Problem during thread creation\n");
+	else if (type == 5)
+		printf("Philosopher number must be between 1 and 200");
 	return (1);
 }

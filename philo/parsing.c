@@ -64,6 +64,8 @@ int	parsing(int ac, char **av, t_args *args)
 		i++;
 	}
 	args->nbr_philo = __atoi(av[1]);
+	if (args->nbr_philo == 0 || args->nbr_philo > 200)
+		return (error_message(5));
 	args->time_die = __atoi(av[2]);
 	args->time_eat = __atoi(av[3]);
 	args->time_sleep = __atoi(av[4]);
