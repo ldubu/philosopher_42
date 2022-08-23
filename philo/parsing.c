@@ -16,7 +16,7 @@ static void	philo(t_philo *philo, int i)
 {
 	philo->nbr = i;
 	philo->left_fork = i;
-	philo->right_fork = i + 1 % (philo->args->nbr_philo);
+	philo->right_fork = (i + 1) % (philo->args->nbr_philo);
 	philo->meal_nbr = 0;
 }
 
@@ -39,15 +39,17 @@ static int	init_mutex(t_args *args)
 	int	i;
 
 	i = 0;
-	while (i < args->nbr_philo)
+	while (i <= args->nbr_philo)
 	{
-		if (pthread_mutex_init(args->forks + i, NULL))
+		if (pthread_mutex_init(args->m_forks + i, NULL))
 			return (error_message(3));
 		i++;
 	}
-	if (pthread_mutex_init(&(args->message), NULL))
+	if (pthread_mutex_init(&(args->m_message), NULL))
 		return (error_message(3));
-	if (pthread_mutex_init(&(args->meal), NULL))
+	if (pthread_mutex_init(&(args->m_death_meal_check), NULL))
+		return (error_message(3));
+	if (pthread_mutex_init(&(args->m_all_eat_check), NULL))
 		return (error_message(3));
 	return (0);
 }
