@@ -56,5 +56,8 @@ int	create_philo(t_args *args)
 		usleep(5);
 	}
 	check_death(args);
+	i = 0;
+	while (i < args->nbr_philo)
+		pthread_join(args->philos[i++].thread_id, NULL);
 	return (0);
 }
