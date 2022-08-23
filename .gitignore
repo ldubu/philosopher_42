@@ -1,0 +1,20 @@
+#executable
+a.out
+pipex*
+libft.a
+
+#objets
+*.o
+objs/
+objs_bonus/
+output.txt
+out*
+
+#testeurs
+pipex-tester/
+test*
+PIPEX_TESTER/
+s_pipex/
+
+#vscode de merde
+.vscode/
