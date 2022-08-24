@@ -24,6 +24,6 @@ int	error_message(int type)
 	else if (type == 4)
 		printf("Problem during thread creation\n");
 	else if (type == 5)
-		printf("Philosopher number must be between 1 and 200");
+		printf("Philosopher number must be between 1 and 200\n");
 	return (1);
 }
