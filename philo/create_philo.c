@@ -20,22 +20,19 @@ static void	*routine(void *void_philo)
 {
 	t_philo	*philo;
 	t_args	*args;
-	int		end;
 
 	philo = (t_philo *)void_philo;
 	args = philo->args;
 	if (philo->nbr % 2)
 		usleep(15000);
-	end = 1;
-	while (end)
+	while (1)
 	{
 		eat(philo, args);
 		pthread_mutex_lock(&(args->m_all_eat_check));
 		if (args->all_eat)
 		{
-			end = 0;
 			pthread_mutex_unlock(&(args->m_all_eat_check));
-			break ;
+			return (NULL);
 		}
 		pthread_mutex_unlock(&(args->m_all_eat_check));
 		mutex_msg(args, philo->nbr + 1, "is sleeping");
@@ -43,7 +40,7 @@ static void	*routine(void *void_philo)
 		mutex_msg(args, philo->nbr + 1, "is thinking");
 		pthread_mutex_lock(&(args->m_death_meal_check));
 		if (args->death)
-			end = 0;
+			return (NULL);
 		pthread_mutex_unlock(&(args->m_death_meal_check));
 	}
 	return (NULL);
@@ -70,8 +67,12 @@ int	create_philo(t_args *args)
 		usleep(5);
 	}
 	check_death(args);
-	i = 0;
+	i = 2;
 	while (i < args->nbr_philo)
+	{
+		printf("waiting for %d...\n", i+1);
 		pthread_join(args->philos[i++].thread_id, NULL);
+	}
+		
 	return (0);
 }

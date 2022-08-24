@@ -39,7 +39,7 @@ static int	init_mutex(t_args *args)
 	int	i;
 
 	i = 0;
-	while (i < args->nbr_philo)
+	while (i <= args->nbr_philo)
 	{
 		if (pthread_mutex_init(args->m_forks + i, NULL))
 			return (error_message(3));
