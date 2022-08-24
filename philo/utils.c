@@ -39,12 +39,18 @@ void	message(t_args *args, int philo_n, char *action)
 void	smart_sleep(long long time, t_args *args)
 {
 	long long	i;
+	int			end;
 
+	end = 1;
 	i = get_time();
-	while (!(args->death))
+	while (1)
 	{
 		if ((get_time() - i) >= time)
 			break ;
 		usleep(time / 10);
+		pthread_mutex_lock(&(args->meal));
+		if (args->death)
+			end = 0;
+		pthread_mutex_unlock(&(args->meal));
 	}
 }

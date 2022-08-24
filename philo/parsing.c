@@ -16,7 +16,7 @@ static void	philo(t_philo *philo, int i)
 {
 	philo->nbr = i;
 	philo->left_fork = i;
-	philo->right_fork = i + 1 % (philo->args->nbr_philo);
+	philo->right_fork = (i + 1) % (philo->args->nbr_philo);
 	philo->meal_nbr = 0;
 }
 
