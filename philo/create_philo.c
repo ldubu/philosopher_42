@@ -30,8 +30,10 @@ static void	*routine(void *void_philo)
 	while (end)
 	{
 		eat(philo, args);
-		if (args->all_eat)
+		pthread_mutex_lock(&(args->meal));
+		if (args->all_eat || args->death)
 			break ;
+		pthread_mutex_unlock(&(args->meal));
 		message(args, philo->nbr + 1, "is sleeping");
 		smart_sleep(args->time_sleep, args);
 		message(args, philo->nbr + 1, "is thinking");
