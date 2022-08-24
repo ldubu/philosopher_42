@@ -6,7 +6,7 @@
 /*   By: ldubuche <ldubuche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 11:44:46 by ldubuche          #+#    #+#             */
-/*   Updated: 2022/08/08 16:03:59 by ldubuche         ###   ########.fr       */
+/*   Updated: 2022/08/24 14:30:40 by ldubuche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ int	check_death(t_args_b *args, int i)
 		if (get_time() - args->philos[i].last_meal > args->time_die)
 		{
 			message(args, args->philos[i].nbr + 1, "died");
+			sem_wait(args->meal_death);
 			args->death = 1;
+			sem_post(args->meal_death);
 		}
 		if (args->death)
 			exit (1);

@@ -59,6 +59,7 @@ int	create_philo(t_args_b *args)
 			args->philos[i].last_meal = get_time();
 			check_death(args, i);
 			sem_close(args->forks);
+			pthread_join(args->philos[i].thread_id, NULL);
 			exit(0);
 		}
 		i++;

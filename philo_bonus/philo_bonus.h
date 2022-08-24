@@ -48,6 +48,7 @@ typedef struct s_args_bonus
 	int				death;
 	sem_t			*forks;
 	sem_t			*message;
+	sem_t			*meal_death;
 	long long		first_time;
 	t_philo_b		philos[250];
 }					t_args_b;

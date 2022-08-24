@@ -23,5 +23,7 @@ int	error_message(int type)
 		printf("Problem while initializing semaphore\n");
 	else if (type == 4)
 		printf("Problem during thread creation\n");
+	else if (type == 5)
+		printf("Philosopher number must be between 1 and 200\n");
 	return (1);
 }
