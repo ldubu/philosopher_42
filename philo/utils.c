@@ -28,7 +28,8 @@ long long	get_time(void)
 void	message(t_args *args, int philo_n, char *action)
 {
 	pthread_mutex_lock(&(args->m_message));
-	printf("%lli %i %s\n", get_time() - args->first_time, philo_n, action);
+	if (!args->death)
+		printf("%lli %i %s\n", get_time() - args->first_time, philo_n, action);
 	pthread_mutex_unlock(&(args->m_message));
 }
 
@@ -38,18 +39,17 @@ void	message(t_args *args, int philo_n, char *action)
 void	*smart_sleep(long long time, t_args *args)
 {
 	long long	i;
+	int			end;
 
 	i = get_time();
-	while (1)
+	end = 1;
+	while (end)
 	{
 		if ((get_time() - i) >= time)
 			break ;
 		pthread_mutex_lock(&(args->m_death_meal_check));
 		if (args->death)
-		{
-			pthread_mutex_unlock(&(args->m_death_meal_check));
-			return (NULL);
-		}
+			end = 0;
 		pthread_mutex_unlock(&(args->m_death_meal_check));
 		usleep(time / 10);
 	}
