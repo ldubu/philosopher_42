@@ -25,23 +25,14 @@ static void	*routine(void *void_philo)
 	args = philo->args;
 	if (philo->nbr % 2)
 		usleep(15000);
-	while (1)
+	while (!args->death)
 	{
 		eat(philo, args);
-		pthread_mutex_lock(&(args->m_all_eat_check));
 		if (args->all_eat)
-		{
-			pthread_mutex_unlock(&(args->m_all_eat_check));
-			return (NULL);
-		}
-		pthread_mutex_unlock(&(args->m_all_eat_check));
-		mutex_msg(args, philo->nbr + 1, "is sleeping");
+			break ;
+		message(args, philo->nbr + 1, "is sleeping");
 		smart_sleep(args->time_sleep, args);
-		mutex_msg(args, philo->nbr + 1, "is thinking");
-		pthread_mutex_lock(&(args->m_death_meal_check));
-		if (args->death)
-			return (NULL);
-		pthread_mutex_unlock(&(args->m_death_meal_check));
+		message(args, philo->nbr + 1, "is thinking");
 	}
 	return (NULL);
 }
@@ -60,19 +51,13 @@ int	create_philo(t_args *args)
 		if (pthread_create(&(args->philos[i].thread_id), NULL, &routine, \
 		(void *)&args->philos[i]))
 			return (error_message(4));
-		pthread_mutex_lock(&(args->m_death_meal_check));
 		args->philos[i].last_meal = get_time();
-		pthread_mutex_unlock(&(args->m_death_meal_check));
 		i++;
 		usleep(5);
 	}
 	check_death(args);
-	i = 2;
+	i = 0;
 	while (i < args->nbr_philo)
-	{
-		printf("waiting for %d...\n", i+1);
 		pthread_join(args->philos[i++].thread_id, NULL);
-	}
-		
 	return (0);
 }

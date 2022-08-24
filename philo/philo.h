@@ -41,10 +41,9 @@ typedef struct s_args
 	int				meal_nbr;
 	int				all_eat;
 	int				death;
-	pthread_mutex_t	m_forks[250];
-	pthread_mutex_t	m_message;
-	pthread_mutex_t	m_death_meal_check;
-	pthread_mutex_t	m_all_eat_check;
+	pthread_mutex_t	forks[250];
+	pthread_mutex_t	message;
+	pthread_mutex_t	meal;
 	long long		first_time;
 	t_philo			philos[250];
 }					t_args;
@@ -67,8 +66,7 @@ void		check_death(t_args *args);
 /*--------------Utils----------------*/
 long long	get_time(void);
 void		message(t_args *args, int philo_n, char *action);
-void		*smart_sleep(long long time, t_args *args);
+void		smart_sleep(long long time, t_args *args);
 void		check_death(t_args *args);
-void		mutex_msg(t_args *args, int philo_n, char *action);
 
 #endif
