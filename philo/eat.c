@@ -29,6 +29,7 @@ void	eat(t_philo *philo, t_args *args)
 	mutex_msg(args, philo->nbr + 1, "has taken a fork");
 	if (philo->left_fork == philo->right_fork)
 	{
+		pthread_mutex_unlock(&(args->forks[philo->left_fork]));
 		smart_sleep(args->time_die + args->time_sleep, args);
 		return ;
 	}
