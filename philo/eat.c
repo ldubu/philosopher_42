@@ -30,7 +30,7 @@ void	eat(t_philo *philo, t_args *args)
 	if (philo->left_fork == philo->right_fork)
 	{
 		pthread_mutex_unlock(&(args->forks[philo->left_fork]));
-		smart_sleep(args->time_die + args->time_sleep, args);
+		smart_sleep(args->time_die, args);
 		return ;
 	}
 	pthread_mutex_lock(&(args->forks[philo->right_fork]));

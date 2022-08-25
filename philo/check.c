@@ -43,7 +43,7 @@ void	check_death(t_args *args)
 		while (i < args->nbr_philo)
 		{
 			pthread_mutex_lock(&(args->meal));
-			if (get_time() - args->philos[i].last_meal > args->time_die)
+			if (get_time() - args->philos[i].last_meal >= args->time_die)
 			{
 				message(args, i + 1, "died");
 				args->death = 1;

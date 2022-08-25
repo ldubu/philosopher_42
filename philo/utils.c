@@ -43,6 +43,11 @@ void	smart_sleep(long long time, t_args *args)
 
 	end = 1;
 	i = get_time();
+	if (time > args->time_die)
+	{
+		smart_sleep(args->time_die, args);
+		return ;
+	}
 	while (1)
 	{
 		if ((get_time() - i) >= time)
