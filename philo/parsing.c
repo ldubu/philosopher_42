@@ -46,13 +46,19 @@ static int	init_mutex(t_args *args)
 	i = 0;
 	while (i < args->nbr_philo)
 	{
-		if (pthread_mutex_init(args->forks + i, NULL))
+		if (pthread_mutex_init(args->m_forks + i, NULL))
 			return (error_message(3));
 		i++;
 	}
-	if (pthread_mutex_init(&(args->message), NULL))
+	if (pthread_mutex_init(&(args->m_message), NULL))
 		return (error_message(3));
-	if (pthread_mutex_init(&(args->meal), NULL))
+	if (pthread_mutex_init(&(args->m_last_meal), NULL))
+		return (error_message(3));
+	if (pthread_mutex_init(&(args->m_death), NULL))
+		return (error_message(3));
+	if (pthread_mutex_init(&(args->m_meal_nbr), NULL))
+		return (error_message(3));
+	if (pthread_mutex_init(&(args->m_all_eat), NULL))
 		return (error_message(3));
 	return (0);
 }

@@ -21,8 +21,13 @@ static void	check_all_eat(t_args *args)
 	i = 0;
 	while (i < args->nbr_philo)
 	{
-		if (args->philos[i].meal_nbr <= args->meal_nbr)
+		pthread_mutex_lock(&(args->m_meal_nbr));
+		if (args->philos[i].meal_nbr < args->meal_nbr)
+		{
+			pthread_mutex_unlock(&(args->m_meal_nbr));
 			break ;
+		}
+		pthread_mutex_unlock(&(args->m_meal_nbr));
 		i++;
 	}
 	if (i == args->nbr_philo)
@@ -42,13 +47,15 @@ void	check_death(t_args *args)
 		i = 0;
 		while (i < args->nbr_philo)
 		{
-			pthread_mutex_lock(&(args->meal));
+			pthread_mutex_lock(&(args->m_last_meal));
 			if (get_time() - args->philos[i].last_meal >= args->time_die)
 			{
 				message(args, i + 1, "died");
+				pthread_mutex_lock(&(args->m_death));
 				args->death = 1;
+				pthread_mutex_unlock(&(args->m_death));
 			}
-			pthread_mutex_unlock(&(args->meal));
+			pthread_mutex_unlock(&(args->m_last_meal));
 			i++;
 		}
 		if (args->death)

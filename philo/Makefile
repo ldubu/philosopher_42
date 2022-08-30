@@ -33,7 +33,7 @@ $(NAME): $(LIBFT) $(OBJS) $(HEADER)
 	@$(CC) $(OBJS) $(LIBFT) $(CFLAGS) -o $@ -lpthread
 	@printf "\n${_GREEN}${_BOLD}[Philo OK]${_END}\n"
 
-$(OBJS_PATH)%.o: %.c
+$(OBJS_PATH)%.o: %.c $(HEADER)
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@printf "%-15s ${_YELLOW}${_BOLD}$<${_END}...\n" "Compiling"	
