@@ -74,7 +74,7 @@ int	check_eat_death(t_args *args)
 	}
 	pthread_mutex_unlock(&(args->m_death));
 	pthread_mutex_lock(&(args->m_all_eat));
-	if (args->death)
+	if (args->all_eat)
 	{
 		pthread_mutex_unlock(&(args->m_all_eat));
 		return (1);
