@@ -18,7 +18,7 @@ int	error_message(int type)
 		printf("./philo number_of_philosophers time_to_die time_to_eat \
 		time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
 	else if (type == 2)
-		printf("Arguments must be positive number\n");
+		printf("Arguments must be positive int\n");
 	else if (type == 3)
 		printf("Problem while initializing mutex\n");
 	else if (type == 4)

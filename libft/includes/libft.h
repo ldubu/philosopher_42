@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 10:37:02 by ldubuche          #+#    #+#             */
-/*   Updated: 2022/06/13 14:43:11 by marvin           ###   ########.fr       */
+/*   Updated: 2022/08/31 11:18:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int		__isalpha(int c);
 int		__isdigit(int c);
 int		__isascii(int c);
 int		__isprint(int c);
-int		__strisnbr(char *str);
+int		__strisintpos(char *str);
 //Fonction pour changer la casse d'une chaine de charactere
 int		__tolower(int c);
 int		__toupper(int c);

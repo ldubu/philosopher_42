@@ -39,7 +39,7 @@ SRC =		mem/ft_bzero.c\
 			str/ft_isascii.c\
 			str/ft_isdigit.c\
 			str/ft_isprint.c\
-			str/ft_strisnbr.c \
+			str/ft_strisintpos.c \
 			str/ft_strlen.c\
 			str/ft_strlcpy.c\
 			str/ft_strlcat.c\
