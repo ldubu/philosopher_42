@@ -52,7 +52,7 @@ void	smart_sleep(long long time, t_args *args)
 		smart_sleep(args->time_die, args);
 		return ;
 	}
-	while (1)
+	while (end)
 	{
 		if ((get_time() - i) >= time)
 			break ;

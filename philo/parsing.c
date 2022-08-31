@@ -70,7 +70,7 @@ int	parsing(int ac, char **av, t_args *args)
 	i = 1;
 	while (i < ac)
 	{
-		if (__strisintpos(av[i]))
+		if (__strisintpos(av[i]) || av[i][0] == '\0')
 			return (error_message(2));
 		i++;
 	}

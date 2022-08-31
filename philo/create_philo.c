@@ -49,9 +49,13 @@ static void	*routine(void *void_philo)
 		message(args, philo->nbr + 1, "is thinking");
 		if (check_meal(args, philo))
 			return (NULL);
+		if (args->nbr_philo % 3 == 0 && (args->time_eat * 3) < args->time_die)
+			smart_sleep(args->time_eat, args);
 		pthread_mutex_lock(&(args->m_death));
 	}
 	pthread_mutex_unlock(&(args->m_death));
+	
+	
 	return (NULL);
 }
 
