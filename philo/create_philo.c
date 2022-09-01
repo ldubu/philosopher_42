@@ -54,8 +54,6 @@ static void	*routine(void *void_philo)
 		pthread_mutex_lock(&(args->m_death));
 	}
 	pthread_mutex_unlock(&(args->m_death));
-	
-	
 	return (NULL);
 }
 

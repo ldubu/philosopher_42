@@ -34,7 +34,7 @@ static void	check_all_eat(t_args *args)
 	{
 		pthread_mutex_lock(&(args->m_all_eat));
 		args->all_eat = 1;
-		pthread_mutex_lock(&(args->m_all_eat));
+		pthread_mutex_unlock(&(args->m_all_eat));
 	}
 }
 
@@ -55,6 +55,18 @@ static int	check_value_death(t_args *args)
 		return (1);
 	}
 	pthread_mutex_unlock(&(args->m_death));
+	return (0);
+}
+
+static int	check_meal_nbr(t_args *args)
+{
+	pthread_mutex_lock(&(args->m_meal_nbr));
+	if (args->meal_nbr != -1)
+	{
+		pthread_mutex_unlock(&(args->m_meal_nbr));
+		return (1);
+	}
+	pthread_mutex_unlock(&(args->m_meal_nbr));
 	return (0);
 }
 
@@ -80,8 +92,11 @@ void	check_death(t_args *args)
 			i++;
 		}
 		if (check_value_death(args))
+		{
+			pthread_mutex_lock(&(args->m_all_eat));
 			break ;
-		if (args->meal_nbr != -1)
+		}
+		if (check_meal_nbr(args))
 			check_all_eat(args);
 		pthread_mutex_lock(&(args->m_all_eat));
 	}
