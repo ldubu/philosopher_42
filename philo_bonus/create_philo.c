@@ -23,7 +23,7 @@ static void	*routine(void *void_philo)
 
 	philo = (t_philo_b *) void_philo;
 	args = philo->args;
-	philo->last_meal = get_time();
+	philo->last_meal = args->first_time;
 	if (philo->nbr % 2)
 		usleep(15000);
 	while (!args->death)
@@ -56,7 +56,6 @@ int	create_philo(t_args_b *args)
 			if (pthread_create(&(args->philos[i].thread_id), NULL, &routine, \
 			(void *)&args->philos[i]))
 				return (error_message(4));
-			args->philos[i].last_meal = get_time();
 			check_death(args, i);
 			sem_close(args->s_forks);
 			pthread_join(args->philos[i].thread_id, NULL);
