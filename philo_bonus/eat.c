@@ -14,16 +14,16 @@
 
 void	eat(t_philo_b *philo, t_args_b *args)
 {
-	sem_wait(args->forks);
+	sem_wait(args->s_forks);
 	message(args, philo->nbr + 1, "has taken a fork");
-	sem_wait(args->forks);
+	sem_wait(args->s_forks);
 	message(args, philo->nbr + 1, "has taken a fork");
-	sem_wait(args->meal_death);
+	sem_wait(args->s_meal_death);
 	message(args, philo->nbr + 1, "is eating");
 	philo->last_meal = get_time();
-	sem_post(args->meal_death);
+	sem_post(args->s_meal_death);
 	smart_sleep(args->time_eat, args);
 	(philo->meal_nbr)++;
-	sem_post(args->forks);
-	sem_post(args->forks);
+	sem_post(args->s_forks);
+	sem_post(args->s_forks);
 }

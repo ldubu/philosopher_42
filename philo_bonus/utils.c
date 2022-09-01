@@ -81,8 +81,8 @@ void	close_semaphore(t_args_b *args)
 	sem_close(args->s_forks);
 	sem_close(args->s_message);
 	sem_close(args->s_meal_death);
-	sem_close(args->all_eat);
-	sem_close(args->death);
+	sem_close(args->s_all_eat);
+	sem_close(args->s_death);
 	sem_unlink("forks");
 	sem_unlink("messages");
 	sem_unlink("meal_death");
