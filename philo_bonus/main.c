@@ -21,9 +21,7 @@ int	main(int argc, char **argv)
 	if (parsing(argc, argv, &args))
 		return (1);
 	create_philo(&args);
-	sem_close(args.forks);
-	sem_unlink("forks");
-	sem_unlink("messages");
+	close_semaphore(&args);
 	wait_philo(&args);
 	return (0);
 }

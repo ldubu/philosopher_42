@@ -46,9 +46,11 @@ typedef struct s_args_bonus
 	int				meal_nbr;
 	int				all_eat;
 	int				death;
-	sem_t			*forks;
-	sem_t			*message;
-	sem_t			*meal_death;
+	sem_t			*s_forks;
+	sem_t			*s_message;
+	sem_t			*s_meal_death;
+	sem_t			*s_all_eat;
+	sem_t			*s_death;
 	long long		first_time;
 	t_philo_b		philos[250];
 }					t_args_b;
@@ -73,5 +75,6 @@ long long	get_time(void);
 void		message(t_args_b *args, int philo_n, char *action);
 void		smart_sleep(long long time, t_args_b *args);
 int			wait_philo(t_args_b *args);
+void		close_semaphore(t_args_b *args);
 
 #endif

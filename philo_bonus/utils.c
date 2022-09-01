@@ -27,10 +27,10 @@ long long	get_time(void)
 
 void	message(t_args_b *args, int philo_n, char *action)
 {
-	sem_wait(args->message);
+	sem_wait(args->s_message);
 	if (!args->death)
 		printf("%lli %i %s\n", get_time() - args->first_time, philo_n, action);
-	sem_post(args->message);
+	sem_post(args->s_message);
 }
 
 /*	Smart sleep surveille si un philo n'est pas mort pendant que le philo
@@ -75,21 +75,17 @@ int	wait_philo(t_args_b *args)
 	}
 	return (1);
 }
-// int	i;
-	// int	wstatus;
 
-	// i = 0;
-	// while (i < args->nbr_philo)
-	// {
-	// 	waitpid(args->philos[i].philo_id, &wstatus, 0);
-	// 	if (WIFEXITED(wait_status) && WEXITSTATUS(wait_status) == 1)
-	// 	{
-	// 		i = 0;
-	// 		while (i < args->nbr_philo)
-	// 			kill(args->philos[i++].philo_id, SIGTERM);
-	// 	}
-	// 	if (wstatus == 2)
-	// 		args->philos[i].meal_nbr = args->meal_nbr;
-	// 	i++;
-	// }
-	// return (status_handler(wstatus));
+void	close_semaphore(t_args_b *args)
+{
+	sem_close(args->s_forks);
+	sem_close(args->s_message);
+	sem_close(args->s_meal_death);
+	sem_close(args->all_eat);
+	sem_close(args->death);
+	sem_unlink("forks");
+	sem_unlink("messages");
+	sem_unlink("meal_death");
+	sem_unlink("all_eat");
+	sem_unlink("death");
+}

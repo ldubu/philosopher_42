@@ -37,14 +37,22 @@ static int	init_mutex_sema(t_args_b *args)
 	sem_unlink("forks");
 	sem_unlink("messages");
 	sem_unlink("meal_death");
-	args->forks = sem_open("forks", O_CREAT, 0000644, args->nbr_philo);
-	if (args->forks == SEM_FAILED)
+	sem_unlink("all_eat");
+	sem_unlink("death");
+	args->s_forks = sem_open("forks", O_CREAT, 0000644, args->nbr_philo);
+	if (args->s_forks == SEM_FAILED)
 		return (error_message(3));
-	args->message = sem_open("messages", O_CREAT, 0000644, 1);
-	if (args->message == SEM_FAILED)
+	args->s_message = sem_open("messages", O_CREAT, 0000644, 1);
+	if (args->s_message == SEM_FAILED)
 		return (error_message(3));
-	args->meal_death = sem_open("meal_death", O_CREAT, 0000644, 1);
-	if (args->meal_death == SEM_FAILED)
+	args->s_meal_death = sem_open("meal_death", O_CREAT, 0000644, 1);
+	if (args->s_meal_death == SEM_FAILED)
+		return (error_message(3));
+	args->s_all_eat = sem_open("all_eat", O_CREAT, 0000644, args->nbr_philo);
+	if (args->s_all_eat == SEM_FAILED)
+		return (error_message(3));
+	args->s_death = sem_open("death", O_CREAT, 0000644, args->nbr_philo);
+	if (args->s_death == SEM_FAILED)
 		return (error_message(3));
 	return (0);
 }
@@ -56,7 +64,7 @@ int	parsing(int ac, char **av, t_args_b *args)
 	i = 1;
 	while (i < ac)
 	{
-		if (__strisnbr(av[i]))
+		if (__strisintpos(av[i]) || av[i][0] == '\0')
 			return (error_message(2));
 		i++;
 	}
